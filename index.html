@@ -269,6 +269,7 @@
         }
 
         .buttons {
+            position: relative;
             display: flex;
             flex-direction: column;
             gap: 15px;
@@ -300,6 +301,8 @@
             .hero {
                 padding: 0 20px;
                 flex-direction: column;
+                margin-top: 40px;
+
             }
 
             .title {
@@ -1040,13 +1043,21 @@
             <p class="description">
                 Do you want to open your cricket ID online but can't find a trustworthy betting platform? Here's a Reddy
                 Anna Book for you. This is India's most famous and trusted cricket demo ID platform. Reddy Anna Book is
-                India's largest exchange platform, offering fantastic online sports betting with a 24-hour withdrawal
+                India's largest exchange platform, offering fantastic online sports betting with a 24*7 withdrawal
                 service.
             </p>
             <div class="buttons">
-                <a href="https://wa.me/+918601762028" class="contact-button">Contact us @7777857777</a>
-                <a href="https://wa.me/+918601762028" class="contact-button">WhatsApp Us @7797277777</a>
-                <a href="https://wa.me/+918601762028" class="contact-button">WhatsApp us @ 7777757777</a>
+                <a href="https://t.me/annafami" class="contact-button">Contact us on  Telegram <img src="
+                    https://img.icons8.com/?size=48&id=63306&format=png
+                    " class="item " style="    position: absolute;
+                    left: 25rem;
+                    height: 35px;
+                    top: 5px;
+                " class="icon icon-tabler icons-tabler-outline icon-tabler-brand-facebook" alt=""> </a>
+                <a href="https://wa.me/+918601762028" class="contact-button">WhatsApp us @77771888992<img src="https://img.icons8.com/?size=100&id=BkugfgmBwtEI&format=png&color=000000" style="    height: 30px;
+                       margin: -8px;
+                       margin-left: 17px;
+                       " alt=""></a>
             </div>
         </div>
 
@@ -1636,7 +1647,7 @@
         </div>
         <div class="iconscontainer">
             <div class="social-box">
-                <a href="#" class="item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                <!-- <a href="#" class="item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                         viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round"
                         class="icon icon-tabler icons-tabler-outline icon-tabler-brand-facebook">
@@ -1651,7 +1662,7 @@
                         <path d="M4 4m0 4a4 4 0 0 1 4 -4h8a4 4 0 0 1 4 4v8a4 4 0 0 1 -4 4h-8a4 4 0 0 1 -4 -4z" />
                         <path d="M12 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
                         <path d="M16.5 7.5l0 .01" />
-                    </svg></a>
+                    </svg></a> -->
                 <a href="https://t.me/annafami"><img src="
     https://img.icons8.com/?size=48&id=63306&format=png
     " class="item " class="icon icon-tabler icons-tabler-outline icon-tabler-brand-facebook" alt=""></a>
@@ -1817,137 +1828,8 @@
             wheel.addEventListener("click", spinWheel);
 
 
-            document.addEventListener("DOMContentLoaded", () => {
-                const phModal = document.getElementById("phReviewModal")
-                const phOpenModalBtn = document.getElementById("phOpenReviewModal")
-                const phCloseBtn = document.querySelector(".ph_modal_close")
-                const phStars = document.querySelectorAll(".ph_star")
-                const phSubmitReviewBtn = document.getElementById("phSubmitReview")
-                const phReviewsContainer = document.getElementById("phReviewsContainer")
-                const phAverageRatingElement = document.getElementById("phAverageRating")
 
-                let phCurrentRating = 0
 
-                // Backend API URL (replace with your actual API endpoint)
-
-                phStars.forEach((star) => {
-                    star.addEventListener("mouseover", () => {
-                        const rating = Number.parseInt(star.getAttribute("data-rating"))
-                        phHighlightStars(rating)
-                    })
-
-                    star.addEventListener("mouseout", () => {
-                        phHighlightStars(phCurrentRating)
-                    })
-
-                    star.addEventListener("click", () => {
-                        phCurrentRating = Number.parseInt(star.getAttribute("data-rating"))
-                        phHighlightStars(phCurrentRating)
-                    })
-                })
-
-                function phHighlightStars(rating) {
-                    phStars.forEach((star) => {
-                        const starRating = Number.parseInt(star.getAttribute("data-rating"))
-                        if (starRating <= rating) {
-                            star.classList.add("active")
-                        } else {
-                            star.classList.remove("active")
-                        }
-                    })
-                }
-
-                phSubmitReviewBtn.addEventListener("click", () => {
-                    const phReviewText = document.getElementById("phReviewText").value
-                    const phReviewerName = document.getElementById("phReviewerName").value
-                    if (phCurrentRating > 0 && phReviewText.trim() !== "") {
-                        const phReview = {
-                            rating: phCurrentRating,
-                            text: phReviewText,
-                            name: phReviewerName || "Anonymous",
-                            date: new Date().toISOString(),
-                        }
-                        phSubmitReview(phReview)
-                        phResetModal()
-                        phModal.style.display = "none"
-                    } else {
-                        alert("Please provide both a rating and a review.")
-                    }
-                })
-
-                function phSubmitReview(review) {
-                    fetch(API_URL, {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
-                        body: JSON.stringify(review),
-                    })
-                        .then((response) => response.json())
-                        .then((data) => {
-                            phDisplayReview(data)
-                            phUpdateAverageRating()
-                        })
-                        .catch((error) => console.error("Error:", error))
-                }
-
-                function phDisplayReview(review) {
-                    const phReviewElement = document.createElement("div")
-                    phReviewElement.classList.add("ph_review_item")
-                    phReviewElement.dataset.id = review.id
-                    phReviewElement.innerHTML = `
-            <div class="ph_review_stars">${"★".repeat(review.rating)}${"☆".repeat(5 - review.rating)}</div>
-            <div class="ph_review_text">${review.text}</div>
-            <div class="ph_review_author">- ${review.name}</div>
-            <div class="ph_review_date">${new Date(review.date).toLocaleDateString()}</div>
-        `
-                    phReviewsContainer.insertBefore(phReviewElement, phReviewsContainer.firstChild)
-                }
-
-                function phResetModal() {
-                    phCurrentRating = 0
-                    phHighlightStars(0)
-                    document.getElementById("phReviewText").value = ""
-                    document.getElementById("phReviewerName").value = ""
-                }
-
-                function phUpdateAverageRating() {
-                    fetch(`${API_URL}/average`)
-                        .then((response) => response.json())
-                        .then((data) => {
-                            const { averageRating, totalReviews } = data
-                            phAverageRatingElement.style.display = "block"
-                            phAverageRatingElement.querySelector(".ph_avg_stars").innerHTML =
-                                "★".repeat(Math.round(averageRating)) + "☆".repeat(5 - Math.round(averageRating))
-                            phAverageRatingElement.querySelector(".ph_avg_value").textContent = averageRating.toFixed(1)
-                            phAverageRatingElement.querySelector(".ph_total_reviews").textContent =
-                                `(${totalReviews} review${totalReviews !== 1 ? "s" : ""})`
-                        })
-                        .catch((error) => console.error("Error:", error))
-                }
-
-                function phLoadReviews() {
-                    fetch(API_URL)
-                        .then((response) => response.json())
-                        .then((reviews) => {
-                            phReviewsContainer.innerHTML = ""
-                            reviews.forEach((review) => phDisplayReview(review))
-                            phUpdateAverageRating()
-                        })
-                        .catch((error) => console.error("Error:", error))
-                }
-
-                // Load initial reviews
-                phLoadReviews()
-
-                // Set up real-time updates (e.g., using WebSocket or Server-Sent Events)
-                const phEventSource = new EventSource(`${API_URL}/events`)
-                phEventSource.onmessage = (event) => {
-                    const newReview = JSON.parse(event.data)
-                    phDisplayReview(newReview)
-                    phUpdateAverageRating()
-                }
-            })
 
             document.addEventListener('DOMContentLoaded', () => {
                 // Theme toggle
